@@ -73,7 +73,7 @@ class KizzyRPC(
      * @return
      */
     fun setName(activity_name: String?): KizzyRPC {
-        this.activityName = activity_name
+        this.activityName = activity_name + " on Android"
         return this
     }
 
