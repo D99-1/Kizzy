@@ -1,0 +1,37 @@
+name: Test Build
+
+on:
+  push:
+    branches: [ "master" ]
+    paths-ignore:
+      - 'metadata/**'
+  pull_request:
+    branches: [ "master" ]
+    paths-ignore:
+      - 'metadata/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Apk
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Setup jdk-17
+        uses: actions/setup-java@main
+        with:
+          java-version: 17
+          distribution: 'adopt'
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Assemble Debug
+        run: ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: apk-debug
+          path: app/build/outputs/apk/debug/**.apk
